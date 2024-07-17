@@ -3,7 +3,7 @@
 
 # # Compare finetuned vs. non-finetuned models
 
-# In[ ]:
+# In[2]:
 
 
 import os
@@ -13,7 +13,7 @@ lamini.api_url = os.getenv("POWERML__PRODUCTION__URL")
 lamini.api_key = os.getenv("POWERML__PRODUCTION__KEY")
 
 
-# In[ ]:
+# In[3]:
 
 
 from llama import BasicModelRunner
@@ -21,37 +21,37 @@ from llama import BasicModelRunner
 
 # ### Try Non-Finetuned models
 
-# In[ ]:
+# In[5]:
 
 
 non_finetuned = BasicModelRunner("meta-llama/Llama-2-7b-hf")
 
 
-# In[ ]:
+# In[8]:
 
 
 non_finetuned_output = non_finetuned("Tell me how to train my dog to sit")
 
 
-# In[ ]:
+# In[9]:
 
 
 print(non_finetuned_output)
 
 
-# In[ ]:
+# In[10]:
 
 
 print(non_finetuned("What do you think of Mars?"))
 
 
-# In[ ]:
+# In[11]:
 
 
 print(non_finetuned("taylor swift's best friend"))
 
 
-# In[ ]:
+# In[12]:
 
 
 print(non_finetuned("""Agent: I'm here to help you with your Amazon deliver order.
@@ -63,49 +63,49 @@ Agent:"""))
 
 # ### Compare to finetuned models 
 
-# In[ ]:
+# In[14]:
 
 
 finetuned_model = BasicModelRunner("meta-llama/Llama-2-7b-chat-hf")
 
 
-# In[ ]:
+# In[16]:
 
 
 finetuned_output = finetuned_model("Tell me how to train my dog to sit")
 
 
-# In[ ]:
+# In[17]:
 
 
 print(finetuned_output)
 
 
-# In[ ]:
+# In[18]:
 
 
 print(finetuned_model("[INST]Tell me how to train my dog to sit[/INST]"))
 
 
-# In[ ]:
+# In[20]:
 
 
 print(non_finetuned("[INST]Tell me how to train my dog to sit[/INST]"))
 
 
-# In[ ]:
+# In[21]:
 
 
 print(finetuned_model("What do you think of Mars?"))
 
 
-# In[ ]:
+# In[22]:
 
 
 print(finetuned_model("taylor swift's best friend"))
 
 
-# In[ ]:
+# In[26]:
 
 
 print(finetuned_model("""Agent: I'm here to help you with your Amazon deliver order.
