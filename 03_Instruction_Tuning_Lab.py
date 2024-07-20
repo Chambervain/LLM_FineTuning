@@ -25,7 +25,7 @@ from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 instruction_tuned_dataset = load_dataset("tatsu-lab/alpaca", split="train", streaming=True)
 
 
-# In[6]:
+# In[5]:
 
 
 m = 5
@@ -37,7 +37,7 @@ for j in top_m:
 
 # ### Two prompt templates
 
-# In[7]:
+# In[6]:
 
 
 prompt_template_with_input = """Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.
@@ -60,7 +60,7 @@ prompt_template_without_input = """Below is an instruction that describes a task
 
 # ### Hydrate prompts (add data to prompts)
 
-# In[8]:
+# In[7]:
 
 
 processed_data = []
@@ -73,7 +73,7 @@ for j in top_m:
   processed_data.append({"input": processed_prompt, "output": j["output"]})
 
 
-# In[9]:
+# In[8]:
 
 
 pprint(processed_data[0])
@@ -98,7 +98,7 @@ dataset_hf = load_dataset(dataset_path_hf)
 print(dataset_hf)
 
 
-# In[14]:
+# In[20]:
 
 
 non_instruct_model = BasicModelRunner("meta-llama/Llama-2-7b-hf")
@@ -106,7 +106,7 @@ non_instruct_output = non_instruct_model("Tell me how to train my dog to sit")
 print("Not instruction-tuned output (Llama 2 Base):", non_instruct_output)
 
 
-# In[17]:
+# In[30]:
 
 
 instruct_model = BasicModelRunner("meta-llama/Llama-2-7b-chat-hf")
@@ -144,14 +144,14 @@ print("Instruction-tuned output (Llama 2): ", instruct_output)
 
 # ### Try smaller models
 
-# In[ ]:
+# In[31]:
 
 
 tokenizer = AutoTokenizer.from_pretrained("EleutherAI/pythia-70m")
 model = AutoModelForCausalLM.from_pretrained("EleutherAI/pythia-70m")
 
 
-# In[ ]:
+# In[32]:
 
 
 def inference(text, model, tokenizer, max_input_tokens=1000, max_output_tokens=100):
@@ -179,7 +179,7 @@ def inference(text, model, tokenizer, max_input_tokens=1000, max_output_tokens=1
   return generated_text_answer
 
 
-# In[ ]:
+# In[33]:
 
 
 finetuning_dataset_path = "lamini/lamini_docs"
@@ -187,7 +187,7 @@ finetuning_dataset = load_dataset(finetuning_dataset_path)
 print(finetuning_dataset)
 
 
-# In[ ]:
+# In[34]:
 
 
 test_sample = finetuning_dataset["test"][0]
@@ -198,13 +198,13 @@ print(inference(test_sample["question"], model, tokenizer))
 
 # ### Compare to finetuned small model
 
-# In[ ]:
+# In[35]:
 
 
 instruction_model = AutoModelForCausalLM.from_pretrained("lamini/lamini_docs_finetuned")
 
 
-# In[ ]:
+# In[36]:
 
 
 print(inference(test_sample["question"], instruction_model, tokenizer))
