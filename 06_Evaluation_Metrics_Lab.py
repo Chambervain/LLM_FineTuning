@@ -49,14 +49,14 @@ dataset = datasets.load_dataset("lamini/lamini_docs")
 test_dataset = dataset["test"]
 
 
-# In[4]:
+# In[5]:
 
 
 print(test_dataset[0]["question"])
 print(test_dataset[0]["answer"])
 
 
-# In[5]:
+# In[6]:
 
 
 model_name = "lamini/lamini_docs_finetuned"
@@ -66,20 +66,20 @@ model = AutoModelForCausalLM.from_pretrained(model_name)
 
 # ### Setup a really basic evaluation function
 
-# In[6]:
+# In[7]:
 
 
 def is_exact_match(a, b):
     return a.strip() == b.strip()
 
 
-# In[7]:
+# In[8]:
 
 
 model.eval()
 
 
-# In[8]:
+# In[9]:
 
 
 def inference(text, model, tokenizer, max_input_tokens=1000, max_output_tokens=100):
@@ -110,7 +110,7 @@ def inference(text, model, tokenizer, max_input_tokens=1000, max_output_tokens=1
 
 # ### Run model and compare to expected answer
 
-# In[9]:
+# In[10]:
 
 
 test_question = test_dataset[0]["question"]
@@ -119,14 +119,14 @@ print(test_question)
 print(generated_answer)
 
 
-# In[10]:
+# In[11]:
 
 
 answer = test_dataset[0]["answer"]
 print(answer)
 
 
-# In[11]:
+# In[12]:
 
 
 exact_match = is_exact_match(generated_answer, answer)
@@ -135,7 +135,7 @@ print(exact_match)
 
 # ### Run over entire dataset
 
-# In[12]:
+# In[13]:
 
 
 n = 10
@@ -161,7 +161,7 @@ for i, item in tqdm(enumerate(test_dataset)):
 print('Number of exact matches: ', sum(metrics['exact_matches']))
 
 
-# In[13]:
+# In[14]:
 
 
 df = pd.DataFrame(predictions, columns=["predicted_answer", "target_answer"])
@@ -170,14 +170,14 @@ print(df)
 
 # ### Evaluate all the data
 
-# In[14]:
+# In[15]:
 
 
 evaluation_dataset_path = "lamini/lamini_docs_evaluation"
 evaluation_dataset = datasets.load_dataset(evaluation_dataset_path)
 
 
-# In[15]:
+# In[16]:
 
 
 pd.DataFrame(evaluation_dataset)
@@ -186,8 +186,15 @@ pd.DataFrame(evaluation_dataset)
 # ### Try the ARC benchmark
 # This can take several minutes
 
-# In[16]:
+# In[17]:
 
 
 get_ipython().system('python lm-evaluation-harness/main.py --model hf-causal --model_args pretrained=lamini/lamini_docs_finetuned --tasks arc_easy --device cpu')
+
+
+# In[ ]:
+
+
+# Not necessarily to be caught up by the performance of the standard benchmarks even though this is how the evaluation going usually,
+# Because they are not correlated with the use-cases of you or your company care about on the finetune models !
 
